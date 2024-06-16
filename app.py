@@ -23,7 +23,9 @@ except psycopg2.OperationalError as e:
 @app.route('/')
 def home():
     if 'loggedin' in session:
-        return render_template('home.html', username=session['email'])  # Changed to 'email' key
+        # Ensure profile_picture is available in session, provide a default value if not
+        profile_picture = session.get('profile_picture', None)
+        return render_template('sidebar.html', profile_picture=profile_picture)
     return redirect(url_for('login'))
 
 @app.route('/login/', methods=['GET', 'POST'])
@@ -40,6 +42,8 @@ def login():
                 session['loggedin'] = True
                 session['id'] = account['id']
                 session['email'] = account['email']
+                session['profile_picture'] = account['profile_picture']  # Ensure this line is present
+                session['full_name'] = f"{account['first_name']} {account['last_name']}"  # Store full name in session
                 return redirect(url_for('home'))
             else:
                 flash('Incorrect email/password')
@@ -104,9 +108,7 @@ def register():
 
 @app.route('/logout')
 def logout():
-    session.pop('loggedin', None)
-    session.pop('id', None)
-    session.pop('email', None)  # Changed to 'email' key
+    session.clear()  # Clear all session variables
     return redirect(url_for('login'))
 
 @app.route('/profile')
@@ -119,4 +121,4 @@ def profile():
     return redirect(url_for('login'))
 
 if __name__ == "__main__":
-    app.run(debug=True,port=5001)
+    app.run(debug=True, port=5001)
