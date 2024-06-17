@@ -20,15 +20,14 @@ body {
     left: 5rem;
     transition: left 0.3s;
 }
-.userPic{
+
+.userPic {
     right: 1.5rem;
     font-size: 2rem;
     cursor: pointer;
     display: flex;
-    align-items: center; 
-
+    align-items: center;
 }
-
 
 .profile-pic {
     width: 40px;
@@ -39,8 +38,8 @@ body {
 
 #username {
     display: none;
-    
 }
+
 .user-dropdown {
     display: none;
     position: absolute;
@@ -63,8 +62,6 @@ body {
     background-color: #f1f1f1;
 }
 
-
-
 .logo {
     font-size: 2rem;
     font-weight: bold;
@@ -79,7 +76,7 @@ body {
     left: -250px;
     background-color: #fff;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    transition: 0.3s;
+    transition: left 0.3s;
     overflow-x: hidden;
     padding-top: 20px;
     border-right: 1px solid #ccc;
@@ -99,7 +96,6 @@ body {
     text-decoration: none;
     color: #000;
     display: block;
-
 }
 
 .sidebar ul li a:hover {
@@ -123,7 +119,7 @@ body {
 }
 
 .menu-toggle.active {
-    left: 260px;
+    left: 250px;
 }
 
 .content.active {

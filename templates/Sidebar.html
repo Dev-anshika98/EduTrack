@@ -19,7 +19,7 @@
                 {% endif %}
                 <div class="user-dropdown" id="user-dropdown">
                     <a href="{{ url_for('profile') }}">Profile</a>
-                    <a href="#">Change Password</a>
+                    <a href="{{ url_for('change_password') }}">Change Password</a>
                     <a href="{{ url_for('logout') }}">Sign Out</a>
                 </div>
             </div>
@@ -37,7 +37,10 @@
             <li><a href="#allocate-test">Allocate Test</a></li>
         </ul>
     </nav>
-    
+    <div class="content">
+        <h1>Dashboard</h1>
+        <p>Welcome to the dashboard.</p>
+    </div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Sidebar toggle functionality

@@ -11,8 +11,8 @@ app.secret_key = 'cairocoders-ednalan'
 DB_HOST = "localhost"
 DB_NAME = "postgres"
 DB_USER = "postgres"
-DB_PASS = "ayushi@0987"
-DB_PORT = "5000" # Corrected the port number for PostgreSQL
+DB_PASS = "shikucode"
+DB_PORT = "5432" # Corrected the port number for PostgreSQL
 
 try:
     conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT)
@@ -141,7 +141,35 @@ def users():
         users_list = cursor.fetchall()
         cursor.close()
         return render_template('users.html', users=users_list)
+    return redirect(url_for('login'))
+@app.route('/change_password', methods=['GET', 'POST'])
+def change_password():
+    if 'loggedin' not in session:
+        return redirect(url_for('login'))
     
-    
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    if request.method == 'POST':
+        current_password = request.form['current_password']
+        new_password = request.form['new_password']
+        confirm_password = request.form['confirm_password']
+
+        cursor.execute('SELECT * FROM users WHERE id = %s', [session['id']])
+        account = cursor.fetchone()
+
+        if account and check_password_hash(account['password'], current_password):
+            if new_password == confirm_password:
+                _hashed_password = generate_password_hash(new_password)
+                cursor.execute('UPDATE users SET password = %s WHERE id = %s', (_hashed_password, session['id']))
+                conn.commit()
+                flash('Password successfully changed!')
+                return redirect(url_for('profile'))
+            else:
+                flash('New passwords do not match')
+        else:
+            flash('Current password is incorrect')
+    return render_template('change_password.html')
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
+    
