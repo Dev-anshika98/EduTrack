@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+body{
+    font-family: Nunito, sans-serif;
+    font-size: .813rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #47404f;
+    text-align: left;
+    background-color: #fff;
+  }
+  .breadcrumb {
+    background: transparent;
+    align-items: center;
+    margin: 0 0 1.25rem;
+    padding: 0;
+}
+.breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    padding: .75rem 1rem;
+    margin-bottom: 1rem;
+    list-style: none;
+    background-color: #eee;
+    border-radius: .25rem;
+}
+.profile-info {
+    background-color: #ffffff;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 1000px;
+    height: 250px;
+}
+.submit{
+   background-color: #6c34b8; 
+   color:white;
+   border-radius:5px;
+   height:35px;
+   width:80px;
+   margin-left:40px;
+}
+.adduser{
+    background-color: #6c34b8; 
+   color:white;
+   border-radius:5px;
+   height:40px;
+   width:150px;
+   margin-left:600px;
+}
+.buttons{
+    display:flex;
+}
+.searchbar{
+    display:flex;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top:30px;
+  }
+  
+  th, td {
+    text-align: left;
+    padding: 8px;
+    border: 1px solid #ddd;
+  }
+  th {
+    background-color: #f2f2f2; 
+  }
+  td{
+    background-color:white;
+  }
+  
+  
+  tr:nth-child(even){background-color: #f2f2f2}
+    </style>
+</head>
+<body>
+  <div class="container">
+    <div class="breadcrumb">
+        <h1>User List</h1>
+       </div>
+       <div class="profile-info">
+        <div class="buttons">
+            
+                <form class="searchbar">
+                    <input type="search" placeholder="Search">
+                    <button type="submit" class="submit">Search</button> 
+                  </form>
+            
+              <button class="adduser">Add user</button>
+        </div>
+        <table>
+            <tr>
+              <th>ID</th>
+              <th>User Image</th>
+              <th>FirstName</th>
+              <th>LastName</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>CreatedOn</th>
+              <th></th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td><img src="user_image.png" alt="User Image" width="50" height="50"></td> 
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.phone }}</td>
+                <td>{{ user.created_on }}</td>
+                <td></td>
+              </tr>
+              {% endfor %}
+          </table>
+       </div>
+  </div>
+</body>
+</html>

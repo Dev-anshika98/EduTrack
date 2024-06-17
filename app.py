@@ -11,8 +11,8 @@ app.secret_key = 'cairocoders-ednalan'
 DB_HOST = "localhost"
 DB_NAME = "postgres"
 DB_USER = "postgres"
-DB_PASS = "shikucode"
-DB_PORT = "5432"  # Corrected the port number for PostgreSQL
+DB_PASS = "ayushi@0987"
+DB_PORT = "5000" # Corrected the port number for PostgreSQL
 
 try:
     conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT)
@@ -115,10 +115,33 @@ def logout():
 def profile():
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     if 'loggedin' in session:
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cursor.execute('SELECT * FROM users WHERE id = %s', [session['id']])
         account = cursor.fetchone()
+        cursor.close()
+
+        # Debugging: Print fetched account data to console
+        print("Fetched account data:", account)
+        
         return render_template('profile.html', account=account)
     return redirect(url_for('login'))
 
+@app.route('/users')
+def users():
+    # cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    # if 'loggedin' in session:
+    #     cursor.execute('SELECT * FROM users')
+    #     users_list = cursor.fetchall()
+    #     cursor.close()
+    #     return render_template('users.html', users=users_list)
+    # return redirect(url_for('login'))
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    if 'loggedin' in session:
+        cursor.execute('SELECT * FROM users')
+        users_list = cursor.fetchall()
+        cursor.close()
+        return render_template('users.html', users=users_list)
+    
+    
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
