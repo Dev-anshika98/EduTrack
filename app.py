@@ -142,6 +142,95 @@ def users():
         cursor.close()
         return render_template('users.html', users=users_list)
     return redirect(url_for('login'))
+
+
+
+
+@app.route('/adduser', methods=['GET', 'POST'])
+def adduser():
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    if 'loggedin' in session:
+        if request.method == 'POST' and 'first_name' in request.form and 'password' in request.form and 'email' in request.form:
+            
+            first_name = request.form['first_name']
+            last_name = request.form['last_name']
+            password = request.form['password']
+            email = request.form['email']
+            phone = request.form['phone']
+            profile_picture = request.files['profile_picture']
+            _hashed_password = generate_password_hash(password)
+            
+            upload_folder = os.path.join('static', 'uploads')
+            if not os.path.exists(upload_folder):
+                os.makedirs(upload_folder)
+
+            # Save the uploaded file
+            if profile_picture and profile_picture.filename != '':
+                profile_picture_filename = profile_picture.filename
+                profile_picture_path = os.path.join(upload_folder, profile_picture_filename)
+                profile_picture.save(profile_picture_path)
+            else:
+                profile_picture_filename = None
+
+            try:
+                cursor.execute('SELECT * FROM users WHERE email = %s', (email,))
+                account = cursor.fetchone()
+                if account:
+                    flash('Account already exists!')
+                elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
+                    flash('Invalid email address!')
+                elif not re.match(r'[A-Za-z0-9]+', first_name):
+                    flash('Username must contain only characters and numbers!')
+                elif not first_name or not password or not email:
+                    flash('Please fill out the form!')
+                else:
+                    cursor.execute("""
+                        INSERT INTO users (first_name, last_name, email, password, phone, profile_picture)
+                        VALUES (%s, %s, %s, %s, %s, %s)
+                    """, (first_name, last_name, email, _hashed_password, phone, profile_picture_path))
+                    conn.commit()
+                    flash('User has been successfully added!')
+                    return redirect(url_for('users'))
+            except Exception as e:
+                print(f"Error: {e}")
+                flash('An error occurred while adding the user. Please try again.')
+        return render_template('adduser.html')
+    return redirect(url_for('login'))
+
+
+@app.route('/edit_user/<int:user_id>', methods=['GET', 'POST'])
+def edit_user(user_id):
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    if request.method == 'POST':
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        email = request.form['email']
+        phone = request.form['phone']
+        profile_picture = request.files['profile_picture']
+        
+        # Update user details in the database
+        cursor.execute("""
+            UPDATE users 
+            SET first_name = %s, last_name = %s, email = %s, phone = %s, profile_picture = %s 
+            WHERE id = %s
+        """, (first_name, last_name, email, phone, profile_picture.filename, user_id))
+        conn.commit()
+        flash('User updated successfully')
+        return redirect(url_for('users'))
+    
+    cursor.execute('SELECT * FROM users WHERE id = %s', (user_id,))
+    user = cursor.fetchone()
+    return render_template('edit_user.html', user=user)
+
+@app.route('/delete_user/<int:user_id>', methods=['POST'])
+def delete_user(user_id):
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor.execute('DELETE FROM users WHERE id = %s', (user_id,))
+    conn.commit()
+    flash('User deleted successfully')
+    return redirect(url_for('users'))
+
+
 @app.route('/change_password', methods=['GET', 'POST'])
 def change_password():
     if 'loggedin' not in session:
