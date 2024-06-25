@@ -11,8 +11,8 @@ app.secret_key = 'cairocoders-ednalan'
 DB_HOST = "localhost"
 DB_NAME = "postgres"
 DB_USER = "postgres"
-DB_PASS = "shikucode"
-DB_PORT = "5432" # Corrected the port number for PostgreSQL
+DB_PASS = "ayushi@0987"
+DB_PORT = "5000" # Corrected the port number for PostgreSQL
 
 try:
     conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT)
@@ -257,6 +257,55 @@ def change_password():
         else:
             flash('Current password is incorrect')
     return render_template('change_password.html')
+
+
+@app.route('/testtype')
+def testtype():
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    if 'loggedin' in session:
+        cursor.execute('SELECT * FROM test_entries')
+        test_list = cursor.fetchall()
+        cursor.close()
+        return render_template('testtype.html', tests=test_list)
+    return redirect(url_for('login'))
+
+
+@app.route('/addtest', methods=['GET', 'POST'])
+def addtest():
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    if 'loggedin' in session:
+        if request.method == 'POST':
+            # Get form data
+            test_id = request.form['Id']
+            test_type = request.form['test_type']
+            language = request.form['language']
+            
+            # Insert data into the database
+            cursor.execute("""
+                        INSERT INTO  test_entries(id, test_type, language)
+                        VALUES (%s, %s, %s)
+                    """, (test_id,test_type,language))
+            conn.commit()
+        return render_template('addtest.html')
+    return redirect(url_for('login'))
+            
+@app.route('/deletetest/<int:test_id>', methods=['POST'])
+def deletetest(test_id):
+    if 'loggedin' in session:
+        try:
+            cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+            # Delete data from the database
+            cursor.execute('DELETE FROM test_entries WHERE id = %s', (test_id,))
+            conn.commit()
+            cursor.close()
+            
+            flash('Test type deleted successfully!', 'success')
+        except (Exception, psycopg2.DatabaseError) as error:
+            conn.rollback()
+            flash(f'Error: {error}', 'danger')
+    
+    return redirect(url_for('testtype'))         
+
 
 
 if __name__ == "__main__":
