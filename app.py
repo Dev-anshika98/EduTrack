@@ -272,7 +272,6 @@ def testtype():
 
 @app.route('/addtest', methods=['GET', 'POST'])
 def addtest():
-    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     if 'loggedin' in session:
         if request.method == 'POST':
             # Get form data
@@ -280,15 +279,26 @@ def addtest():
             test_type = request.form['test_type']
             language = request.form['language']
             
-            # Insert data into the database
-            cursor.execute("""
-                        INSERT INTO  test_entries(id, test_type, language)
-                        VALUES (%s, %s, %s)
-                    """, (test_id,test_type,language))
-            conn.commit()
+            try:
+                cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+                # Insert data into the database
+                cursor.execute("""
+                            INSERT INTO test_entries(id, test_type, language)
+                            VALUES (%s, %s, %s)
+                        """, (test_id, test_type, language))
+                conn.commit()
+                cursor.close()
+                return redirect(url_for('testtype'))
+            except (Exception, psycopg2.DatabaseError) as error:
+                conn.rollback()
+                flash(f'Error: {error}', 'danger')
+        
         return render_template('addtest.html')
+    flash('Please log in to access this page.', 'danger')
     return redirect(url_for('login'))
-            
+
+         
+
 @app.route('/deletetest/<int:test_id>', methods=['POST'])
 def deletetest(test_id):
     if 'loggedin' in session:
@@ -306,6 +316,41 @@ def deletetest(test_id):
     
     return redirect(url_for('testtype'))         
 
+
+@app.route('/reports', methods=['GET', 'POST'])
+def reports():
+    if 'loggedin' not in session:
+        return redirect(url_for('login'))
+    
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    
+    # Fetch the test type entries for the dropdown
+    cursor.execute("SELECT DISTINCT test_type FROM test_entries")
+    test_types = cursor.fetchall()
+    
+    # Handle form submission
+    report_data = []
+    if request.method == 'POST':
+        user = request.form.get('user')
+        test_type = request.form.get('test_type')
+        
+        query = "SELECT * FROM test_entries WHERE 1=1"
+        params = []
+        
+        if user:
+            query += " AND user = %s"
+            params.append(user)
+        
+        if test_type:
+            query += " AND test_type = %s"
+            params.append(test_type)
+        
+        cursor.execute(query, params)
+        report_data = cursor.fetchall()
+    
+    cursor.close()
+    
+    return render_template('reports.html', test_types=test_types, report_data=report_data)
 
 
 if __name__ == "__main__":
