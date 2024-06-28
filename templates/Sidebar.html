@@ -33,9 +33,10 @@
             <li><a href="#dashboard">Dashboard</a></li>
             <li><a href="{{ url_for('users')}}">Users</a></li>
             <li><a href="{{ url_for('testtype')}}">Test Type</a></li>
-            <li><a href="#test-master">Test Master</a></li>
-            <li><a href="#allocatetest">Allocate Test</a></li>
+            <li><a href="{{ url_for('test_data')}}">Test Master</a></li>
+            <li><a href="{{ url_for('allocation_bp.allocations') }}">Allocate Test</a></li>
             <li><a href="{{ url_for('reports')}}">Reports</a></li>
+         
         </ul>
     </nav>
     <div class="content">
