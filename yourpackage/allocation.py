@@ -4,7 +4,7 @@ import psycopg2.extras
 from datetime import datetime
 
 # Assuming conn is your psycopg2 connection object
-conn = psycopg2.connect(database="postgres", user="postgres", password="shikucode", host="localhost", port="5432")
+conn = psycopg2.connect(database="postgres", user="postgres", password="ayushi@0987", host="localhost", port="5000")
 
 allocation_bp = Blueprint('allocation_bp', __name__)
 

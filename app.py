@@ -20,8 +20,8 @@ app.register_blueprint(allocation_bp)
 DB_HOST = "localhost"
 DB_NAME = "postgres"
 DB_USER = "postgres"
-DB_PASS = "shikucode"
-DB_PORT = "5432" # Corrected the port number for PostgreSQL
+DB_PASS = "ayushi@0987"
+DB_PORT = "5000" # Corrected the port number for PostgreSQL
 
 try:
     conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT)
@@ -413,6 +413,34 @@ def addtestentries():
     return redirect(url_for('login'))
 
 
+#dashboard routing
+
+def get_dashboard_data():
+    try:
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        
+        cursor.execute("SELECT COUNT(*) FROM test_entries")
+        test_type_count = cursor.fetchone()[0]
+        
+        cursor.execute("SELECT COUNT(*) FROM users")  # Note the correct table name if it's case-sensitive
+        total_students = cursor.fetchone()[0]
+        
+        cursor.close()
+        
+        return test_type_count, total_students
+    except psycopg2.DatabaseError as error:
+        print(f"Database error occurred: {error}")
+        return None, None
+
+
+@app.route('/dashboard')
+def dashboard():
+    test_type_count, total_students = get_dashboard_data()
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor.execute("SELECT test_type, COUNT(*) as count FROM test_entries GROUP BY test_type")
+    test_type_data = cursor.fetchall()
+    cursor.close()
+    return render_template('dashboard.html', test_type_count=test_type_count, total_students=total_students,test_type_data=test_type_data)
 
 
 
