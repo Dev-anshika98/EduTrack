@@ -30,12 +30,14 @@
     </header>
     <nav id="sidebar" class="sidebar">
         <ul>
-            <li><a href="#dashboard">Dashboard</a></li>
+            <li><a href="{{ url_for('dashboard')}}">Dashboard</a></li>
             <li><a href="{{ url_for('users')}}">Users</a></li>
             <li><a href="{{ url_for('testtype')}}">Test Type</a></li>
             <li><a href="{{ url_for('test_data')}}">Test Master</a></li>
             <li><a href="{{ url_for('allocation_bp.allocations') }}">Allocate Test</a></li>
             <li><a href="{{ url_for('reports')}}">Reports</a></li>
+            <li><a href="#user_test">User Test</a></li>
+            <li><a href="#log_out">Log out</a></li>
          
         </ul>
     </nav>
