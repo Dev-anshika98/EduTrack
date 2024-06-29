@@ -63,6 +63,11 @@
     </style>
 </head>
 <body>
+    {% extends "Sidebar.html" %}
+
+    {% block title %}User List{% endblock %}
+    
+    {% block content %}
     <div class="container">
         <div class="profile-header">
             <img src="{{ url_for('static', filename=account.profile_picture) }}" alt="Profile Picture">
@@ -76,5 +81,6 @@
             <p><strong>Phone:</strong> {{ account.phone }}</p>
         </div>
     </div>
+    {% endblock %}
 </body>
 </html>

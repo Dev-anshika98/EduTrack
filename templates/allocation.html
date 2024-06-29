@@ -34,7 +34,7 @@
         }
         .btn-primary {
             background-color: #6c34b8;
-            border-color: #6f42c1;
+            border-color: #6c34b8;
             color:white;
         }
         .table {
@@ -47,7 +47,7 @@
         }
         .btn-danger {
             padding: 0 5px;
-            background-color: #e3342f;
+            background-color:  #6c34b8;
             border-color: #e3342f;
         }
         .alert {
@@ -56,6 +56,11 @@
     </style>
 </head>
 <body>
+    {% extends "Sidebar.html" %}
+
+    {% block title %}User List{% endblock %}
+    
+    {% block content %}
 <div class="container mt-5">
     <h1>Allocate Test Type</h1>
     <form method="POST" action="{{ url_for('allocation_bp.allocate') }}">
@@ -108,5 +113,6 @@
         </tbody>
     </table>
 </div>
+{% endblock %}
 </body>
 </html>

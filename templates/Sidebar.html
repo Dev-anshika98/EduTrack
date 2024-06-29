@@ -35,16 +35,18 @@
             <li><a href="{{ url_for('testtype')}}">Test Type</a></li>
             <li><a href="{{ url_for('test_data')}}">Test Master</a></li>
             <li><a href="{{ url_for('allocation_bp.allocations') }}">Allocate Test</a></li>
-            <li><a href="{{ url_for('reports')}}">Reports</a></li>
+        
             <li><a href="#user_test">User Test</a></li>
-            <li><a href="#log_out">Log out</a></li>
+            <li><a href="{{ url_for('reports')}}">Reports</a></li>
+            <li><a href="{{ url_for('logout') }}">Log out</a></li>
          
         </ul>
     </nav>
     <div class="content">
-        <h1>Dashboard</h1>
-        <p>Welcome to the dashboard.</p>
+        {% block content %}
+        {% endblock %}
     </div>
+   
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Sidebar toggle functionality

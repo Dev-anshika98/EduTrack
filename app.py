@@ -20,8 +20,8 @@ app.register_blueprint(allocation_bp)
 DB_HOST = "localhost"
 DB_NAME = "postgres"
 DB_USER = "postgres"
-DB_PASS = "ayushi@0987"
-DB_PORT = "5000" # Corrected the port number for PostgreSQL
+DB_PASS = "shikucode"
+DB_PORT = "5432" # Corrected the port number for PostgreSQL
 
 try:
     conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT)

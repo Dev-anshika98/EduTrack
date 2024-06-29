@@ -3,44 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Test Entry</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Add Test Master</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .form-group input[type="text"],
+        .form-group select,
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-row .form-group {
+            flex: 0 0 48%;
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100px;
+            padding: 10px;
+            margin: 0 auto;
+            background-color: #6c63ff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-submit:hover {
+            background-color: #5754d6;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Add Test Entry</h1>
+        <h1>Add Test Master</h1>
         <form action="{{ url_for('addtestentries') }}" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="test_type">Test Type</label>
-                <input type="text" id="test_type" name="test_type" required>
-            </div>
-            <div class="form-group">
-                <label for="question">Question</label>
-                <textarea id="question" name="question" rows="3" required></textarea>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="test_type">Test Type</label>
+                    <select id="test_type" name="test_type" required>
+                        <option value="" disabled selected>Select</option>
+                        <!-- Add your options here -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="question">Question</label>
+                    <input type="text" id="question" name="question" required>
+                </div>
             </div>
             <div class="form-group">
                 <label for="question_image">Question Image</label>
                 <input type="file" id="question_image" name="question_image">
             </div>
-            <div class="form-group">
-                <label for="answer_a">Answer A</label>
-                <input type="text" id="answer_a" name="answer_a" required>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="answer_a">Answer (A)</label>
+                    <input type="text" id="answer_a" name="answer_a" required>
+                </div>
+                <div class="form-group">
+                    <label for="answer_b">Answer (B)</label>
+                    <input type="text" id="answer_b" name="answer_b" required>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="answer_b">Answer B</label>
-                <input type="text" id="answer_b" name="answer_b" required>
-            </div>
-            <div class="form-group">
-                <label for="answer_c">Answer C</label>
-                <input type="text" id="answer_c" name="answer_c" required>
-            </div>
-            <div class="form-group">
-                <label for="answer_d">Answer D</label>
-                <input type="text" id="answer_d" name="answer_d" required>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="answer_c">Answer (C)</label>
+                    <input type="text" id="answer_c" name="answer_c" required>
+                </div>
+                <div class="form-group">
+                    <label for="answer_d">Answer (D)</label>
+                    <input type="text" id="answer_d" name="answer_d" required>
+                </div>
             </div>
             <div class="form-group">
                 <label for="correct_answer">Correct Answer</label>
-                <input type="text" id="correct_answer" name="correct_answer" required>
+                <select id="correct_answer" name="correct_answer" required>
+                    <option value="" disabled selected>Select</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                </select>
             </div>
             <button type="submit" class="btn-submit">Submit</button>
         </form>

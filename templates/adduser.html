@@ -46,6 +46,11 @@ body{
     </style>
 </head>
 <body>
+    {% extends "Sidebar.html" %}
+
+{% block title %}User List{% endblock %}
+
+{% block content %}
   <div class="container">
     <div class="breadcrumb">
         <h1>Add User</h1>
@@ -80,5 +85,6 @@ body{
         </form>
        </div>
   </div>
+  {% endblock %}
 </body>
 </html>
