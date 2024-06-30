@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Allocate Test Type</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         body {
             background-color: #fff;
@@ -20,6 +21,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            
         }
         h1, h2 {
             margin-top: 20px;
@@ -53,6 +55,41 @@
         .alert {
             margin-top: 20px;
         }
+        footer {
+            background-color: #f2f2f2;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .footer-content h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+        
+        .footer-content p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .footer-button button {
+            background-color: #6c4cff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .footer-button button:hover {
+            background-color: #6c4cff;
+        }
+
     </style>
 </head>
 <body>
@@ -106,13 +143,29 @@
                     <td>{{ allocation.test_type }}</td>
                     <td>{{ allocation.created_on }}</td>
                     <td>
-                        <a href="{{ url_for('allocation_bp.delete_allocation', id=allocation.id) }}" class="btn btn-danger">Delete</a>
+
+                        <form action="{{ url_for('allocation_bp.delete_allocation', id=allocation.id) }}" method="POST" style="display:inline;" onsubmit="confirmDelete(event);">
+                            <button type="submit" class="btn btn-link text-danger p-0" style="font-size:1.25em;"><i class="fas fa-times"></i></button>
+                        </form>
+                        
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+    
 </div>
+<footer>
+    <div class="footer-content">
+        <h2>Practicum</h2>
+        <p>Practicum - Knowledge Test Application sunt.</p>
+    </div>
+    <div class="footer-button">
+        <button>Knowledge Test Application</button>
+    </div>
+</footer>  
+       
+
 {% endblock %}
 </body>
 </html>

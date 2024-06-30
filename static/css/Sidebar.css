@@ -22,7 +22,7 @@ body {
     font-size: 2rem;
     cursor: pointer;
     position: absolute;
-    left: 5rem;
+    left: 250px; /* Set to 250px for the open state */
     transition: left 0.3s;
 }
 
@@ -75,10 +75,10 @@ body {
 
 .sidebar {
     height: 100%;
-    width: 250px;
+    width: 150px;
     position: fixed;
     top: 0;
-    left: -250px;
+    left: 0; /* Set to 0 for the open state */
     background-color: #fff;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     transition: left 0.3s;
@@ -108,7 +108,7 @@ body {
 }
 
 .content {
-    margin-left: 0;
+    margin-left: 250px; /* Set to 250px for the open state */
     padding: 20px;
     transition: margin-left 0.3s;
 }
@@ -120,13 +120,24 @@ body {
 }
 
 .sidebar.active {
-    left: 0;
+    left: -250px; /* Move to -250px when toggled */
 }
 
 .menu-toggle.active {
-    left: 250px;
+    left: 5rem; /* Move to 5rem when toggled */
 }
 
 .content.active {
-    margin-left: 250px;
+    margin-left: 0; /* Move content to 0 when toggled */
+}
+
+.logo {
+    /* Adjust the width and height as needed */
+    width: 50px;
+    height: 50px;
+}
+
+.logo-img {
+    width: 100%;
+    height: auto;
 }

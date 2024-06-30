@@ -91,7 +91,38 @@ table {
   td{
     background-color:white;
   }
-  
+  footer {
+    background-color: #f2f2f2;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-content h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.footer-content p {
+    margin: 5px 0 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.footer-button button {
+    background-color: #6c4cff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.footer-button button:hover {
+    background-color: #6c4cff;
+}
   
   tr:nth-child(even){background-color: #f2f2f2}
 
@@ -165,6 +196,15 @@ table {
                 {% endfor %}
           </table>
        </div>
+       <footer>
+        <div class="footer-content">
+            <h2>Practicum</h2>
+            <p>Practicum - Knowledge Test Application sunt.</p>
+        </div>
+        <div class="footer-button">
+            <button>Knowledge Test Application</button>
+        </div>
+    </footer>
   </div>
   {% endblock %}
 </body>

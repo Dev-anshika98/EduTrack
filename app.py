@@ -53,7 +53,7 @@ def login():
                 session['email'] = account['email']
                 session['profile_picture'] = account['profile_picture']  # Ensure this line is present
                 session['full_name'] = f"{account['first_name']} {account['last_name']}"  # Store full name in session
-                return redirect(url_for('home'))
+                return redirect(url_for('dashboard'))
             else:
                 flash('Incorrect email/password')
         else:
