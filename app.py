@@ -384,6 +384,8 @@ def test_data():
 def addtestentries():
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     if 'loggedin' in session:
+        cursor.execute("SELECT DISTINCT test_type FROM test_data")
+        test_types = cursor.fetchall()
         if request.method == 'POST':
             test_type = request.form['test_type']
             question = request.form['question']
@@ -451,7 +453,17 @@ def dashboard():
     cursor.close()
     return render_template('dashboard.html', test_type_count=test_type_count, total_students=total_students,test_type_data=test_type_data)
 
-
+@app.route('/delete_test/<int:test_id>', methods=['POST'])
+def delete_test(test_id):
+    cursor = conn.cursor()
+    try:
+        cursor.execute("DELETE FROM test_data WHERE id = %s", (test_id,))
+        conn.commit()
+        flash('Test deleted successfully!')
+    except Exception as e:
+        print(f"Error: {e}")
+        flash('An error occurred while deleting the test.')
+    return redirect(url_for('test_data'))
 
 
 

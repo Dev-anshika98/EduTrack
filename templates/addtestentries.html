@@ -76,7 +76,7 @@
             text-align: center;
             margin-top: 50px;
             padding: 20px;
-            background: #a19c9c;
+            background: #f2f2f2;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
         }
@@ -105,9 +105,7 @@
     </style>
 </head>
 <body>
-    {% extends "Sidebar.html" %}
-    {% block title %}Add Test Master{% endblock %}
-    {% block content %}
+    
     <div class="container">
         <h1>Add Test Master</h1>
         <form action="{{ url_for('addtestentries') }}" method="post" enctype="multipart/form-data">
@@ -115,8 +113,12 @@
                 <div class="form-group">
                     <label for="test_type">Test Type</label>
                     <select id="test_type" name="test_type" required>
-                        <option value="" disabled selected>Select</option>
-                        <!-- Add your options here -->
+                        <option value="">Select</option>
+                        {% for test in test_types %}
+                <option value="{{ test.test_type }}">
+                  {{ test.test_type }}
+                </option>
+                {% endfor %}
                     </select>
                 </div>
                 <div class="form-group">
@@ -160,12 +162,13 @@
             </div>
             <button type="submit" class="btn-submit">Submit</button>
         </form>
-        <div class="footer">
-            <p>Practicum</p>
-            <p class="par">Practicum - Knowledge Test Application</p>
-            <button type="button" id="btn">Knowledge Test Application</button>
-        </div>
+        
     </div>
-    {% endblock %}
+    <div class="footer">
+        <p>Practicum</p>
+        <p class="par">Practicum - Knowledge Test Application</p>
+        <button type="button" id="btn">Knowledge Test Application</button>
+    </div>
+ 
 </body>
 </html>
