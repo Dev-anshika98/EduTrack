@@ -10,6 +10,7 @@
             background-color: #f9f9f9;
             margin: 0;
             padding: 0;
+            display: flex;
         }
 
         .container {
@@ -19,6 +20,7 @@
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
+            flex-grow: 1;
         }
 
         h1 {
@@ -59,7 +61,7 @@
             width: 100px;
             padding: 10px;
             margin: 0 auto;
-            background-color: #6c63ff;
+            background-color: #6c34b8;
             color: #fff;
             border: none;
             border-radius: 4px;
@@ -69,41 +71,43 @@
         .btn-submit:hover {
             background-color: #5754d6;
         }
-        footer {
-            background-color: #f2f2f2;
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
             padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: #a19c9c;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
         }
-        
-        .footer-content h2 {
+
+        .footer p {
             margin: 0;
-            font-size: 20px;
-        }
-        
-        .footer-content p {
-            margin: 5px 0 0;
-            font-size: 14px;
-            color: #555;
-        }
-        
-        .footer-button button {
-            background-color: #6c4cff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
+            color: #70657b;
             font-size: 16px;
         }
-        
-        .footer-button button:hover {
-            background-color: #6c4cff;
+
+        .footer button {
+            background-color: #6c34b8;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        .footer button:hover {
+            background-color: #4a148c;
         }
     </style>
 </head>
 <body>
+    {% extends "Sidebar.html" %}
+    {% block title %}Add Test Master{% endblock %}
+    {% block content %}
     <div class="container">
         <h1>Add Test Master</h1>
         <form action="{{ url_for('addtestentries') }}" method="post" enctype="multipart/form-data">
@@ -156,15 +160,12 @@
             </div>
             <button type="submit" class="btn-submit">Submit</button>
         </form>
-        <footer>
-            <div class="footer-content">
-                <h2>Practicum</h2>
-                <p>Practicum - Knowledge Test Application sunt.</p>
-            </div>
-            <div class="footer-button">
-                <button>Knowledge Test Application</button>
-            </div>
-        </footer>
+        <div class="footer">
+            <p>Practicum</p>
+            <p class="par">Practicum - Knowledge Test Application</p>
+            <button type="button" id="btn">Knowledge Test Application</button>
+        </div>
     </div>
+    {% endblock %}
 </body>
 </html>

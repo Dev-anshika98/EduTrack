@@ -1,4 +1,4 @@
-from flask import Flask, request, session, redirect, url_for, render_template, flash
+from flask import Flask, request, session, redirect, url_for, render_template, flash, jsonify, render_template_string
 import psycopg2  # pip install psycopg2
 import psycopg2.extras
 import re
@@ -6,6 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 
 from yourpackage.allocation import allocation_bp
+from yourpackage.user_test import user_test_bp
 
 
 
@@ -23,11 +24,19 @@ DB_USER = "postgres"
 DB_PASS = "shikucode"
 DB_PORT = "5432" # Corrected the port number for PostgreSQL
 
+
+
+def get_db_connection():
+    return psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT)
+
 try:
-    conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT)
+     conn = get_db_connection()
 except psycopg2.OperationalError as e:
     print("Error while connecting to PostgreSQL", e)
     # Add appropriate error handling here, e.g., exit or retry logic
+
+
+app.register_blueprint(user_test_bp, url_prefix='/user_test')
 
 @app.route('/')
 def home():
@@ -441,6 +450,9 @@ def dashboard():
     test_type_data = cursor.fetchall()
     cursor.close()
     return render_template('dashboard.html', test_type_count=test_type_count, total_students=total_students,test_type_data=test_type_data)
+
+
+
 
 
 
