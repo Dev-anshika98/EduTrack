@@ -38,7 +38,7 @@ body{
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 1000px;
-    height: 250px;
+    height: 550px;
 }
 .submit{
    background-color: #6c34b8; 
@@ -187,7 +187,11 @@ table {
                     <td>{{ test.created_on }}</td>
                     <td>{{ test.created_by }}</td>
                     <td>
-                    
+                      <form action="{{ url_for('delete_test', test_id=test.id) }}" method="POST" onsubmit="confirmDelete(event);">
+                        <button type="submit" class="btn btn-link text-danger p-0" style="font-size:1.25em;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </form>
                     </td>
                 </tr>
                 {% endfor %}

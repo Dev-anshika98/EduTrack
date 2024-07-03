@@ -43,7 +43,7 @@ def home():
     if 'loggedin' in session:
         # Ensure profile_picture is available in session, provide a default value if not
         profile_picture = session.get('profile_picture', None)
-        return render_template('sidebar.html', profile_picture=profile_picture)
+        return render_template('dashboard.html', profile_picture=profile_picture)
     return redirect(url_for('login'))
 
 @app.route('/login/', methods=['GET', 'POST'])
@@ -420,7 +420,7 @@ def addtestentries():
                 print(f"Error: {e}")
                 flash('An error occurred while adding test data. Please try again.')
 
-        return render_template('addtestentries.html')
+        return render_template('addtestentries.html',test_types=test_types)   
     return redirect(url_for('login'))
 
 
